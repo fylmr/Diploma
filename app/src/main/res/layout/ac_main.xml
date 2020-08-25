@@ -10,7 +10,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/m"
+        app:reverseLayout="true"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:orientation="vertical"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,25 +32,25 @@
             android:hint="@string/message_edittext_hint"
             android:inputType="textShortMessage|textLongMessage|textAutoCorrect|textMultiLine|textAutoComplete"
             android:maxHeight="164dp"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="6dp"
+            android:paddingStart="@dimen/m"
+            android:paddingTop="@dimen/margin_6"
+            android:paddingEnd="@dimen/margin_52"
+            android:paddingBottom="@dimen/margin_6"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="@dimen/xl"
+            android:layout_height="@dimen/xl"
+            android:layout_marginEnd="@dimen/s"
             android:contentDescription="@string/message_send_cd"
             android:src="@drawable/ic_send"
-            android:tint="@color/message_input_bg"
             app:layout_constraintBottom_toBottomOf="@+id/messageEditText"
             app:layout_constraintEnd_toEndOf="@id/messageEditText"
-            app:layout_constraintTop_toTopOf="@+id/messageEditText"/>
+            app:layout_constraintTop_toTopOf="@+id/messageEditText"
+            app:tint="@color/message_input_bg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
