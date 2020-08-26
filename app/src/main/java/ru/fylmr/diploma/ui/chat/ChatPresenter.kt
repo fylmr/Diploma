@@ -14,7 +14,7 @@ class ChatPresenter : MvpPresenter<ChatView>() {
         val format = SimpleDateFormat("HH:mm", Locale.getDefault())
         val timeString = format.format(Date(time))
 
-        messages.add(Message(message, "Я", timeString))
+        messages.add(Message(message, "Я", timeString, null))
 
         viewState.addMessages(messages, true)
     }
