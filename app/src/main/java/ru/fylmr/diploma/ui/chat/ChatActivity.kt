@@ -188,10 +188,15 @@ class ChatActivity : MvpAppCompatActivity(), ChatView, ChatAdapter.Listener {
         val timeString = format.format(Date(time))
 
         val services = bleGatts[scanResult.device.address]?.services
-            ?.joinToString(" ") { it.uuid.toString() }
+
+        val table = services?.joinToString { service ->
+            val characteristicsTable = service.characteristics
+                .joinToString(separator = "\n|--", prefix = "|--") { it.uuid.toString() }
+            "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
+        }
 
         return Message(
-            services ?: "Устройство найдено",
+            table ?: "Устройство найдено",
             scanResult.device.name ?: scanResult.device.address,
             timeString,
             scanResult.device
