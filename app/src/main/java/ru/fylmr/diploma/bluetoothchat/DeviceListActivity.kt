@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView.OnItemClickListener
@@ -31,7 +32,6 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import ru.fylmr.diploma.R
-import ru.fylmr.diploma.common.logger.Log
 
 /**
  * This Activity appears as a dialog. It lists any paired devices and

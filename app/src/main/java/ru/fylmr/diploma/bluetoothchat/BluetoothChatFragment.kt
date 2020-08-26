@@ -22,13 +22,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import androidx.fragment.app.Fragment
 import ru.fylmr.diploma.R
-import ru.fylmr.diploma.common.logger.Log
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.

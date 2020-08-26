@@ -21,7 +21,7 @@ import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.os.Bundle
 import android.os.Handler
-import ru.fylmr.diploma.common.logger.Log
+import android.util.Log
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -294,6 +294,7 @@ class BluetoothChatService(handler: Handler) {
                                 } catch (e: IOException) {
                                     Log.e(TAG, "Could not close unwanted socket", e)
                                 }
+                            else -> Unit
                         }
                     }
                 }
@@ -437,6 +438,7 @@ class BluetoothChatService(handler: Handler) {
          * @param buffer The bytes to write
          */
         fun write(buffer: ByteArray?) {
+            buffer ?: return
             try {
                 mmOutStream!!.write(buffer)
 
@@ -497,7 +499,6 @@ class BluetoothChatService(handler: Handler) {
     /**
      * Constructor. Prepares a new BluetoothChat session.
      *
-     * @param context The UI Activity Context
      * @param handler A Handler to send messages back to the UI Activity
      */
     init {

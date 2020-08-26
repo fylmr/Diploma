@@ -20,12 +20,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ViewAnimator
+import androidx.fragment.app.FragmentActivity
 import ru.fylmr.diploma.R
-import ru.fylmr.diploma.common.activities.SampleActivityBase
-import ru.fylmr.diploma.common.logger.Log
-import ru.fylmr.diploma.common.logger.LogFragment
-import ru.fylmr.diploma.common.logger.LogWrapper
-import ru.fylmr.diploma.common.logger.MessageOnlyLogFilter
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -35,7 +31,7 @@ import ru.fylmr.diploma.common.logger.MessageOnlyLogFilter
  * For devices with displays with a width of 720dp or greater, the sample log is always visible,
  * on other devices it's visibility is controlled by an item on the Action Bar.
  */
-class MainActivity : SampleActivityBase() {
+class MainActivity : FragmentActivity() {
     // Whether the Log Fragment is currently shown
     private var mLogShown = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,29 +72,5 @@ class MainActivity : SampleActivityBase() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    /**
-     * Create a chain of targets that will receive log data
-     */
-    override fun initializeLogging() {
-        // Wraps Android's native log framework.
-        val logWrapper = LogWrapper()
-        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
-        Log.logNode = logWrapper
-
-        // Filter strips out everything except the message text.
-        val msgFilter = MessageOnlyLogFilter()
-        logWrapper.next = msgFilter
-
-        // On screen logging via a fragment with a TextView.
-        val logFragment = supportFragmentManager
-            .findFragmentById(R.id.log_fragment) as LogFragment?
-        msgFilter.next = logFragment?.logView
-        Log.i(TAG, "Ready")
-    }
-
-    companion object {
-        const val TAG = "MainActivity"
     }
 }
