@@ -20,7 +20,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ViewAnimator
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import ru.fylmr.diploma.R
 
 /**
@@ -31,7 +31,7 @@ import ru.fylmr.diploma.R
  * For devices with displays with a width of 720dp or greater, the sample log is always visible,
  * on other devices it's visibility is controlled by an item on the Action Bar.
  */
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
     // Whether the Log Fragment is currently shown
     private var mLogShown = false
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @ExperimentalStdlibApi
-class ChatActivity : MvpAppCompatActivity(), ChatView, ChatAdapter.Listener {
+class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapter.Listener {
 
     private val adapter by lazy { ChatAdapter(this) }
 
@@ -43,7 +43,6 @@ class ChatActivity : MvpAppCompatActivity(), ChatView, ChatAdapter.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ac_main)
 
         runPermissionChecks()
 

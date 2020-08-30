@@ -16,7 +16,6 @@
 -->
 
 <resources>
-    <string name="app_name">BluetoothChat</string>
     <string name="intro_message">
         <![CDATA[
         
