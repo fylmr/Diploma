@@ -1,15 +1,13 @@
 package ru.fylmr.diploma.ui.chat
 
 import android.Manifest.permission.*
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.bluetooth.*
-import android.bluetooth.le.ScanCallback
-import android.bluetooth.le.ScanResult
-import android.content.Context
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,16 +25,8 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
     private val adapter by lazy { ChatAdapter(this) }
 
     private val bluetoothAdapter by lazy {
-        val manager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        manager.adapter
+        BluetoothAdapter.getDefaultAdapter()
     }
-
-    private val bleScanner by lazy {
-        bluetoothAdapter.bluetoothLeScanner
-    }
-
-    private val scanResults = mutableListOf<ScanResult>()
-    private val bleGatts = mutableMapOf<String, BluetoothGatt>()
 
     @InjectPresenter
     lateinit var presenter: ChatPresenter
@@ -63,11 +53,6 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
         }
 
         startBluetoothScan()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        bleScanner.stopScan(scanCallback)
     }
 
     override fun onRequestPermissionsResult(
@@ -104,7 +89,7 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
 
     override fun onClick(message: Message) {
         val device = message.device ?: return
-        device.connectGatt(this, false, gattCallback)
+        // todo
     }
 
     // ===================================================
@@ -118,57 +103,16 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
         }
     }
 
+    @SuppressLint("HardwareIds")
     private fun startBluetoothScan() {
-        bleScanner.startScan(scanCallback)
-    }
+        addUserLog("Включён Блютус.\n" +
+                "Имя: ${bluetoothAdapter.name} (${bluetoothAdapter.address}).\n" +
+                "Начинаем поиск...")
 
-    private val scanCallback = object : ScanCallback() {
-        override fun onScanResult(callbackType: Int, result: ScanResult) {
-            val indexQuery = scanResults.indexOfFirst { it.device.address == result.device.address }
-            if (indexQuery != -1) { // A scan result already exists with the same address
-                scanResults[indexQuery] = result
-                adapter.setData(scanResults.toMessages())
-            } else {
-                with(result.device) {
-                    Log.w(TAG, "Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
-                }
-                scanResults.add(result)
-                adapter.setData(scanResults.toMessages())
-            }
-        }
-
-        override fun onScanFailed(errorCode: Int) {
-            Log.e(TAG, "onScanFailed: code $errorCode")
-        }
-    }
-
-    private val gattCallback = object : BluetoothGattCallback() {
-        override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
-            val deviceAddress = gatt.device.address
-
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    Log.w(TAG, "Successfully connected to ${gatt.device.name ?: deviceAddress}")
-                    gatt.discoverServices()
-
-                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    Log.w(TAG, "Successfully disconnected from $deviceAddress")
-                    gatt.close()
-                }
-            } else {
-                Log.w(TAG, "Error $status encountered for $deviceAddress! Disconnecting...")
-                gatt.close()
-            }
-        }
-
-        override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
-            super.onServicesDiscovered(gatt, status)
-            val address = gatt?.device?.address ?: return
-
-            bleGatts[address] = gatt
-            runOnUiThread {
-                adapter.setData(scanResults.toMessages())
-            }
+        // Сначала покажем уже присоединённые устройства
+        val paired = bluetoothAdapter.bondedDevices
+        paired.forEach {
+            addUserLog("Известное устрйство: ${it.name} (${it.address})", it)
         }
     }
 
@@ -181,29 +125,13 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
         ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS_CODE)
     }
 
-    private fun getMessageFromDevice(scanResult: ScanResult): Message {
+    private fun addUserLog(message: String, bluetoothDevice: BluetoothDevice? = null) {
         val time = System.currentTimeMillis()
         val format = SimpleDateFormat("HH:mm", Locale.getDefault())
         val timeString = format.format(Date(time))
 
-        val services = bleGatts[scanResult.device.address]?.services
-
-        val table = services?.joinToString { service ->
-            val characteristicsTable = service.characteristics
-                .joinToString(separator = "\n|--", prefix = "|--") { it.uuid.toString() }
-            "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
-        }
-
-        return Message(
-            table ?: "Устройство найдено",
-            scanResult.device.name ?: scanResult.device.address,
-            timeString,
-            scanResult.device
-        )
-    }
-
-    private fun List<ScanResult>.toMessages(): List<Message> {
-        return map { getMessageFromDevice(it) }.distinctBy { it.device?.address }
+        val chatMessage = Message(message, "Информация", timeString, bluetoothDevice)
+        adapter.addData(chatMessage)
     }
 
     companion object {
