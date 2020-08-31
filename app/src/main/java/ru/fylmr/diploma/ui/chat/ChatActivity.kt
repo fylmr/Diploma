@@ -7,7 +7,9 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import kotlinx.android.synthetic.main.ac_main.*
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.fylmr.diploma.R
+import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +33,10 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
 
     @InjectPresenter
     lateinit var presenter: ChatPresenter
+
+    // ===================================================
+    // Лайфсайкл
+    // ===================================================
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +83,7 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
     }
 
     // ===================================================
-    //
+    // Список сообщений
     // ===================================================
 
     override fun addMessages(messages: List<Message>, clearField: Boolean) {
@@ -93,7 +100,7 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
     }
 
     // ===================================================
-    //
+    // Блютус
     // ===================================================
 
     private fun promptEnableBluetooth() {
@@ -106,7 +113,7 @@ class ChatActivity : MvpAppCompatActivity(R.layout.ac_main), ChatView, ChatAdapt
     @SuppressLint("HardwareIds")
     private fun startBluetoothScan() {
         addUserLog("Включён Блютус.\n" +
-                "Имя: ${bluetoothAdapter.name} (${bluetoothAdapter.address}).\n" +
+                "Имя: ${bluetoothAdapter.name}.\n" +
                 "Начинаем поиск...")
 
         // Сначала покажем уже присоединённые устройства
