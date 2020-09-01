@@ -6,15 +6,18 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/deviceName"
+        android:id="@+id/deviceListTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/m"
         android:textColor="@color/black"
+        android:textSize="@dimen/m"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="iPhone (4A:BC:12:1D:99:43)" />
+        tools:ignore="SpUsage"
+        tools:text="Заголовок" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

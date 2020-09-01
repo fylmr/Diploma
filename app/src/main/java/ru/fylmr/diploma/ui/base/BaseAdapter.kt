@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<Data, VH : BaseVH<Data>> : RecyclerView.Adapter<VH>() {
 
-    private val data = mutableListOf<Data>()
+    protected val data = mutableListOf<Data>()
 
     override fun getItemCount() = data.size
 
@@ -31,8 +31,9 @@ abstract class BaseAdapter<Data, VH : BaseVH<Data>> : RecyclerView.Adapter<VH>()
     /**
      * Можно переопределить для передачи листенеров. По умолчанию биндит данные по [position]
      */
-    override fun onBindViewHolder(holder: VH, position: Int) =
+    override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(data[position])
+    }
 
     /**
      * Получить inflated [View] из переопределённого [getLayout]
@@ -70,11 +71,13 @@ abstract class BaseAdapter<Data, VH : BaseVH<Data>> : RecyclerView.Adapter<VH>()
 
 abstract class BaseVH<Data>(v: View) : RecyclerView.ViewHolder(v) {
 
-    open fun bind(data: Data) = Unit
+    internal fun bind(data: Data) = itemView.bind(data)
 
-    fun getContext(): Context = itemView.context
+    abstract fun View.bind(data: Data)
 
-    fun getString(id: Int) = itemView.resources.getString(id)
+    protected fun getContext(): Context = itemView.context
 
-    fun getDrawable(id: Int) = ContextCompat.getDrawable(itemView.context, id)
+    protected fun getString(id: Int) = itemView.resources.getString(id)
+
+    protected fun getDrawable(id: Int) = ContextCompat.getDrawable(itemView.context, id)
 }
