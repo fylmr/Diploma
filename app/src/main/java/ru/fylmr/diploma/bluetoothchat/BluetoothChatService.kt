@@ -33,10 +33,9 @@ import java.util.*
  * incoming connections, a thread for connecting with a device, and a
  * thread for performing data transmissions when connected.
  */
-class BluetoothChatService(handler: Handler) {
+class BluetoothChatService(private val handler: Handler) {
     // Member fields
     private val mAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    private val mHandler: Handler
     private var mSecureAcceptThread: AcceptThread? = null
     private var mInsecureAcceptThread: AcceptThread? = null
     private var mConnectThread: ConnectThread? = null
@@ -60,7 +59,7 @@ class BluetoothChatService(handler: Handler) {
         mNewState = state
 
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(Constants.MESSAGE_STATE_CHANGE, mNewState, -1)
+        handler.obtainMessage(Constants.MESSAGE_STATE_CHANGE, mNewState, -1)
             .sendToTarget()
     }
 
@@ -165,11 +164,11 @@ class BluetoothChatService(handler: Handler) {
         mConnectedThread!!.start()
 
         // Send the name of the connected device back to the UI Activity
-        val msg = mHandler.obtainMessage(Constants.MESSAGE_DEVICE_NAME)
+        val msg = handler.obtainMessage(Constants.MESSAGE_DEVICE_NAME)
         val bundle = Bundle()
         bundle.putString(Constants.DEVICE_NAME, device.name)
         msg.data = bundle
-        mHandler.sendMessage(msg)
+        handler.sendMessage(msg)
         // Update UI title
         updateUserInterfaceTitle()
     }
@@ -224,11 +223,11 @@ class BluetoothChatService(handler: Handler) {
      */
     private fun connectionFailed() {
         // Send a failure message back to the Activity
-        val msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST)
+        val msg = handler.obtainMessage(Constants.MESSAGE_TOAST)
         val bundle = Bundle()
         bundle.putString(Constants.TOAST, "Unable to connect device")
         msg.data = bundle
-        mHandler.sendMessage(msg)
+        handler.sendMessage(msg)
         state = STATE_NONE
         // Update UI title
         updateUserInterfaceTitle()
@@ -242,11 +241,11 @@ class BluetoothChatService(handler: Handler) {
      */
     private fun connectionLost() {
         // Send a failure message back to the Activity
-        val msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST)
+        val msg = handler.obtainMessage(Constants.MESSAGE_TOAST)
         val bundle = Bundle()
         bundle.putString(Constants.TOAST, "Device connection was lost")
         msg.data = bundle
-        mHandler.sendMessage(msg)
+        handler.sendMessage(msg)
         state = STATE_NONE
         // Update UI title
         updateUserInterfaceTitle()
@@ -422,7 +421,7 @@ class BluetoothChatService(handler: Handler) {
                     bytes = mmInStream!!.read(buffer)
 
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+                    handler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                         .sendToTarget()
                 } catch (e: IOException) {
                     Log.e(TAG, "disconnected", e)
@@ -443,7 +442,7 @@ class BluetoothChatService(handler: Handler) {
                 mmOutStream!!.write(buffer)
 
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
+                handler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
                     .sendToTarget()
             } catch (e: IOException) {
                 Log.e(TAG, "Exception during write", e)
@@ -504,6 +503,5 @@ class BluetoothChatService(handler: Handler) {
     init {
         state = STATE_NONE
         mNewState = state
-        mHandler = handler
     }
 }

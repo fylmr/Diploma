@@ -73,6 +73,7 @@ class DevicesListActivity : AppCompatActivity(R.layout.ac_devices_list) {
         return bonded.map { DeviceListItem.DeviceItem(it) }
     }
 
+
     private fun startScanning() {
         delegate.startScanning(this, ::onNewDeviceFound)
     }

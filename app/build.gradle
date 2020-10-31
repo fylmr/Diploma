@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "ru.fylmr.diploma"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -73,4 +73,10 @@ dependencies {
     def glideVersion = "4.11.0"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
+//    // QR code
+//    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+//
+//    // Crypto
+//    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.66'
 }
