@@ -1,7 +1,5 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-import ru.fylmr.diploma.crypto.primitives.curve25519.FieldElementSubtraction.fieldElementSubtraction
-
 /**
  * ge_madd
  * r = p + q
@@ -49,12 +47,12 @@ fun groupElementAddition(r: ge_p1p1, p: GroupElemExtended, q: ge_precomp) {
     /* qhasm: YpX1 = Y1+X1 */
     /* asm 1: fe_add.fe_add(>YpX1=fe#1,<Y1=fe#12,<X1=fe#11); */
     /* asm 2: fe_add.fe_add(>YpX1=r.X,<Y1=p.Y,<X1=p.X); */
-    fieldElementAddition(r.X, p.Y, p.X)
+    feAddition(r.X, p.Y, p.X)
 
     /* qhasm: YmX1 = Y1-X1 */
     /* asm 1: fe_sub.fe_sub(>YmX1=fe#2,<Y1=fe#12,<X1=fe#11); */
     /* asm 2: fe_sub.fe_sub(>YmX1=r.Y,<Y1=p.Y,<X1=p.X); */
-    fieldElementSubtraction(r.Y, p.Y, p.X)
+    feSubtraction(r.Y, p.Y, p.X)
 
     /* qhasm: A = YpX1*ypx2 */
     /* asm 1: fe_mul(>A=fe#3,<YpX1=fe#1,<ypx2=fe#15); */
@@ -74,27 +72,27 @@ fun groupElementAddition(r: ge_p1p1, p: GroupElemExtended, q: ge_precomp) {
     /* qhasm: D = 2*Z1 */
     /* asm 1: fe_add.fe_add(>D=fe#5,<Z1=fe#13,<Z1=fe#13); */
     /* asm 2: fe_add.fe_add(>D=t0,<Z1=p.Z,<Z1=p.Z); */
-    fieldElementAddition(t0, p.Z, p.Z)
+    feAddition(t0, p.Z, p.Z)
 
     /* qhasm: X3 = A-B */
     /* asm 1: fe_sub.fe_sub(>X3=fe#1,<A=fe#3,<B=fe#2); */
     /* asm 2: fe_sub.fe_sub(>X3=r.X,<A=r.Z,<B=r.Y); */
-    fieldElementSubtraction(r.X, r.Z, r.Y)
+    feSubtraction(r.X, r.Z, r.Y)
 
     /* qhasm: Y3 = A+B */
     /* asm 1: fe_add.fe_add(>Y3=fe#2,<A=fe#3,<B=fe#2); */
     /* asm 2: fe_add.fe_add(>Y3=r.Y,<A=r.Z,<B=r.Y); */
-    fieldElementAddition(r.Y, r.Z, r.Y)
+    feAddition(r.Y, r.Z, r.Y)
 
     /* qhasm: Z3 = D+C */
     /* asm 1: fe_add.fe_add(>Z3=fe#3,<D=fe#5,<C=fe#4); */
     /* asm 2: fe_add.fe_add(>Z3=r.Z,<D=t0,<C=r.T); */
-    fieldElementAddition(r.Z, t0, r.T)
+    feAddition(r.Z, t0, r.T)
 
     /* qhasm: T3 = D-C */
     /* asm 1: fe_sub.fe_sub(>T3=fe#4,<D=fe#5,<C=fe#4); */
     /* asm 2: fe_sub.fe_sub(>T3=r.T,<D=t0,<C=r.T); */
-    fieldElementSubtraction(r.T, t0, r.T)
+    feSubtraction(r.T, t0, r.T)
 
     /* qhasm: return */
 }

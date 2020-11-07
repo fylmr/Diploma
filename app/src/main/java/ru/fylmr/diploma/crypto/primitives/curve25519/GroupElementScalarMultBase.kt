@@ -48,6 +48,8 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
 }
 
 /**
+ * ge_scalarmult_base
+ *
  * h = a * B
  * где a = a[0] + 256*a[1] +...+ 256^31*a[31]
  * B — базовая точка Ed25519 (x,4/5) с положительным x.
@@ -55,7 +57,7 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
  * Условия:
  * a[31] <= 127
  */
-fun groupElementScalarMultBase(h: GroupElemExtended, a: IntArray) {
+fun geScalarMultBase(h: GroupElemExtended, a: IntArray) {
     val e = IntArray(64)
     var carry: Int
     val r = ge_p1p1()

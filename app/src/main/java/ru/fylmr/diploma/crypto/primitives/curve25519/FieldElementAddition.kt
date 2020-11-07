@@ -1,9 +1,11 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
 /**
+ * fe_add
+ *
  * h = f + g
  */
-fun fieldElementAddition(h: IntArray, f: IntArray, g: IntArray) {
+fun feAddition(h: IntArray, f: IntArray, g: IntArray) {
     val f0 = f[0]
     val f1 = f[1]
     val f2 = f[2]

@@ -40,16 +40,16 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         swap = b
 
         /* D = X3-Z3 */
-        FieldElementSubtraction.fieldElementSubtraction(tmp0, x3, z3)
+        feSubtraction(tmp0, x3, z3)
 
         /* B = X2-Z2 */
-        FieldElementSubtraction.fieldElementSubtraction(tmp1, x2, z2)
+        feSubtraction(tmp1, x2, z2)
 
         /* A = X2+Z2 */
-        fieldElementAddition(x2, x2, z2)
+        feAddition(x2, x2, z2)
 
         /* C = X3+Z3 */
-        fieldElementAddition(z2, x3, z3)
+        feAddition(z2, x3, z3)
 
         /* DA = D*A */
         fe_mul(z3, tmp0, x2)
@@ -64,18 +64,18 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         fe_sq.fe_sq(tmp1, x2)
 
         /* t0 = DA+CB */
-        fieldElementAddition(x3, z3, z2)
+        feAddition(x3, z3, z2)
 
         /* assign x3 to t0 */
 
         /* t1 = DA-CB */
-        FieldElementSubtraction.fieldElementSubtraction(z2, z3, z2)
+        feSubtraction(z2, z3, z2)
 
         /* X4 = AA*BB */
         fe_mul(x2, tmp1, tmp0)
 
         /* E = AA-BB */
-        FieldElementSubtraction.fieldElementSubtraction(tmp1, tmp1, tmp0)
+        feSubtraction(tmp1, tmp1, tmp0)
 
         /* t2 = t1^2 */
         fe_sq.fe_sq(z2, z2)
@@ -87,7 +87,7 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         fe_sq.fe_sq(x3, x3)
 
         /* t4 = BB+t3 */
-        fieldElementAddition(tmp0, tmp0, z3)
+        feAddition(tmp0, tmp0, z3)
 
         /* Z5 = X1*t2 */
         fe_mul(z3, x1, z2)

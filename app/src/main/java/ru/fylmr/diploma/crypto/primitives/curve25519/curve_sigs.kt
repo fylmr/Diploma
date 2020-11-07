@@ -20,9 +20,9 @@ fun curve25519Keygen(pubKeyOut: ByteArray?, privateKeyIn: ByteArray) {
 
      Замечание: ed_y=1 конвертируется в mont_x=0, т.к. fe_invert это mod-exp
   */
-    groupElementScalarMultBase(ed, privateKeyIn.map { it.toInt() }.toIntArray())
-    fieldElementAddition(edYPlusOne, ed.Y, ed.Z)
-    FieldElementSubtraction.fieldElementSubtraction(oneMinusEdY, ed.Z, ed.Y)
+    geScalarMultBase(ed, privateKeyIn.map { it.toInt() }.toIntArray())
+    feAddition(edYPlusOne, ed.Y, ed.Z)
+    feSubtraction(oneMinusEdY, ed.Z, ed.Y)
     fe_invert(invOneMinusEdY, oneMinusEdY)
     fe_mul(montX, edYPlusOne, invOneMinusEdY)
     fe_tobytes.fe_tobytes(pubKeyOut, montX)
