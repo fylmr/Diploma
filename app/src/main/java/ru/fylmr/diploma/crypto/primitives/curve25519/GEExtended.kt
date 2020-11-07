@@ -9,7 +9,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * (X:Y:Z:T) удовлетворяют x=X/Z, y=Y/Z, XY=ZT
  */
 @Suppress("PropertyName")
-class GroupElemExtended {
+class GEExtended {
     @JvmField
     var X = IntArray(10)
 

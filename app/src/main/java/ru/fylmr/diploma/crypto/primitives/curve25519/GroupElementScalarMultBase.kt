@@ -30,7 +30,7 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
     val minust = ge_precomp()
     val bnegative = negative(b)
     val babs = b - (-bnegative and b shl 1)
-    ge_precomp_0.ge_precomp_0(t)
+    gePrecomp0(t)
     conditionalMove(t, base[pos][0], equal(babs, 1))
     conditionalMove(t, base[pos][1], equal(babs, 2))
     conditionalMove(t, base[pos][2], equal(babs, 3))
@@ -57,7 +57,7 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
  * Условия:
  * a[31] <= 127
  */
-fun geScalarMultBase(h: GroupElemExtended, a: IntArray) {
+fun geScalarMultBase(h: GEExtended, a: IntArray) {
     val e = IntArray(64)
     var carry: Int
     val r = ge_p1p1()
@@ -85,7 +85,8 @@ fun geScalarMultBase(h: GroupElemExtended, a: IntArray) {
         ++i
     }
     e[63] += carry
-    /* each e[i] is between -8 and 8 */ge_p3_0.ge_p3_0(h)
+    /* each e[i] is between -8 and 8 */
+    geExtendedZero(h)
     i = 1
     while (i < 64) {
         select(t, i / 2, e[i])

@@ -1,7 +1,7 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
 fun curve25519Keygen(pubKeyOut: ByteArray, privateKeyIn: ByteArray) {
-    val ed = GroupElemExtended() // Ed25519 pubkey point
+    val ed = GEExtended() // Ed25519 pubkey point
     val edYPlusOne = IntArray(10)
     val oneMinusEdY = IntArray(10)
     val invOneMinusEdY = IntArray(10)
