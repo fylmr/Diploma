@@ -1,6 +1,6 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
+fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
     val e = ByteArray(32)
     val x1 = IntArray(10)
     val x2 = IntArray(10)
@@ -52,10 +52,10 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         feAddition(z2, x3, z3)
 
         /* DA = D*A */
-        fe_mul(z3, tmp0, x2)
+        feMultiplication(z3, tmp0, x2)
 
         /* CB = C*B */
-        fe_mul(z2, z2, tmp1)
+        feMultiplication(z2, z2, tmp1)
 
         /* BB = B^2 */
         fe_sq.fe_sq(tmp0, tmp1)
@@ -72,7 +72,7 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         feSubtraction(z2, z3, z2)
 
         /* X4 = AA*BB */
-        fe_mul(x2, tmp1, tmp0)
+        feMultiplication(x2, tmp1, tmp0)
 
         /* E = AA-BB */
         feSubtraction(tmp1, tmp1, tmp0)
@@ -90,19 +90,19 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         feAddition(tmp0, tmp0, z3)
 
         /* Z5 = X1*t2 */
-        fe_mul(z3, x1, z2)
+        feMultiplication(z3, x1, z2)
 
         /* Z4 = E*t4 */
-        fe_mul(z2, tmp1, tmp0)
+        feMultiplication(z2, tmp1, tmp0)
 
         --pos
     }
 
     fe_cswap(x2, x3, swap)
     fe_cswap(z2, z3, swap)
-    fe_invert(z2, z2)
-    fe_mul(x2, x2, z2)
-    fe_tobytes.fe_tobytes(q, x2)
+    feInversion(z2, z2)
+    feMultiplication(x2, x2, z2)
+    feToBytes(q, x2)
 
     return 0
 }

@@ -5,7 +5,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  *
  * h = f * g
  */
-fun fe_mul(h: IntArray, f: IntArray, g: IntArray) {
+fun feMultiplication(h: IntArray, f: IntArray, g: IntArray) {
     val hr = getHr(f, g)
     var carry0: Long
     val carry1: Long
