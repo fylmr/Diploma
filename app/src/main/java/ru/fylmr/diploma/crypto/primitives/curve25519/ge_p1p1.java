@@ -1,4 +1,3 @@
-
 package ru.fylmr.diploma.crypto.primitives.curve25519;
 
 public class ge_p1p1 {
