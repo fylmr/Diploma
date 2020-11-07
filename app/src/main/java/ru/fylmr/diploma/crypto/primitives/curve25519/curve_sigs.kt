@@ -23,7 +23,7 @@ fun curve25519Keygen(pubKeyOut: ByteArray?, privateKeyIn: ByteArray) {
     groupElementScalarMultBase(ed, privateKeyIn.map { it.toInt() }.toIntArray())
     FieldElementAddition.fieldElementAddition(edYPlusOne, ed.Y, ed.Z)
     FieldElementSubtraction.fieldElementSubtraction(oneMinusEdY, ed.Z, ed.Y)
-    fe_invert.fe_invert(invOneMinusEdY, oneMinusEdY)
+    fe_invert(invOneMinusEdY, oneMinusEdY)
     fe_mul(montX, edYPlusOne, invOneMinusEdY)
     fe_tobytes.fe_tobytes(pubKeyOut, montX)
 }

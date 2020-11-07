@@ -8,7 +8,7 @@ public class fe_frombytes {
 
     public static long load_3(byte[] in, int index) {
         long result;
-        result = ((long) in[index + 0]) & 0xFF;
+        result = ((long) in[index]) & 0xFF;
         result |= (((long) in[index + 1]) << 8) & 0xFF00;
         result |= (((long) in[index + 2]) << 16) & 0xFF0000;
         return result;
@@ -16,7 +16,7 @@ public class fe_frombytes {
 
     public static long load_4(byte[] in, int index) {
         long result;
-        result = (((long) in[index + 0]) & 0xFF);
+        result = (((long) in[index]) & 0xFF);
         result |= ((((long) in[index + 1]) << 8) & 0xFF00);
         result |= ((((long) in[index + 2]) << 16) & 0xFF0000);
         result |= ((((long) in[index + 3]) << 24) & 0xFF000000L);
@@ -27,7 +27,7 @@ public class fe_frombytes {
 Ignores top bit of h.
 */
 
-    public static void fe_frombytes(int[] h, byte[] s) {
+    public fe_frombytes(int[] h, byte[] s) {
         long h0 = load_4(s, 0);
         long h1 = load_3(s, 4) << 6;
         long h2 = load_3(s, 7) << 5;

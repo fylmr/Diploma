@@ -23,11 +23,11 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
     //  e[31] &= 127;
     //  e[31] |= 64;
 
-    fe_frombytes.fe_frombytes(x1, p)
-    fe_1.fe_1(x2)
-    fe_0.fe_0(z2)
-    fe_copy.fe_copy(x3, x1)
-    fe_1.fe_1(z3)
+    fe_frombytes(x1, p)
+    fe_1(x2)
+    fe_0(z2)
+    fe_copy(x3, x1)
+    fe_1(z3)
     swap = 0
 
     var pos = 254
@@ -35,8 +35,8 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         b = e[pos / 8].toInt() ushr (pos and 7)
         b = b and 1
         swap = swap xor b
-        fe_cswap.fe_cswap(x2, x3, swap)
-        fe_cswap.fe_cswap(z2, z3, swap)
+        fe_cswap(x2, x3, swap)
+        fe_cswap(z2, z3, swap)
         swap = b
 
         /* D = X3-Z3 */
@@ -98,9 +98,9 @@ fun scalarMultiplication(q: ByteArray?, n: ByteArray, p: ByteArray?): Int {
         --pos
     }
 
-    fe_cswap.fe_cswap(x2, x3, swap)
-    fe_cswap.fe_cswap(z2, z3, swap)
-    fe_invert.fe_invert(z2, z2)
+    fe_cswap(x2, x3, swap)
+    fe_cswap(z2, z3, swap)
+    fe_invert(z2, z2)
     fe_mul(x2, x2, z2)
     fe_tobytes.fe_tobytes(q, x2)
 

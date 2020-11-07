@@ -40,8 +40,8 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
     conditionalMove(t, base[pos][6], equal(babs, 7))
     conditionalMove(t, base[pos][7], equal(babs, 8))
 
-    fe_copy.fe_copy(minust.yplusx, t.yminusx)
-    fe_copy.fe_copy(minust.yminusx, t.yplusx)
+    fe_copy(minust.yplusx, t.yminusx)
+    fe_copy(minust.yminusx, t.yplusx)
     fe_neg.fe_neg(minust.xy2d, t.xy2d)
 
     conditionalMove(t, minust, bnegative)

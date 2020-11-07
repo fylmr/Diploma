@@ -8,7 +8,7 @@ public class fe_1 {
 h = 1
 */
 
-    public static void fe_1(int[] h) {
+    public fe_1(int[] h) {
         h[0] = 1;
         h[1] = 0;
         h[2] = 0;
