@@ -1,6 +1,5 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-import ru.fylmr.diploma.crypto.primitives.curve25519.FieldElementAddition.fieldElementAddition
 import ru.fylmr.diploma.crypto.primitives.curve25519.FieldElementSubtraction.fieldElementSubtraction
 
 /**
