@@ -53,7 +53,7 @@ object Curve25519 {
      * @return generated public key
      */
     @JvmStatic
-    fun keyGenPublic(privateKey: ByteArray?): ByteArray {
+    fun keyGenPublic(privateKey: ByteArray): ByteArray {
         val publicKey = ByteArray(32)
         curve25519Keygen(publicKey, privateKey)
         return publicKey

@@ -21,7 +21,7 @@ public static int crypto_sign_open(
   byte[] scopy = new byte[32];
   byte[] h = new byte[64];
   byte[] rcheck = new byte[32];
-  ge_p3 A = new ge_p3();
+  GroupElemExtended A = new GroupElemExtended();
   ge_p2 R = new ge_p2();
 
   if (smlen < 64) return -1;

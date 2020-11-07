@@ -91,7 +91,7 @@ and b = b[0]+256*b[1]+...+256^31 b[31].
 B is the Ed25519 base point (x,4/5) with x positive.
 */
 
-public static void ge_double_scalarmult_vartime(ge_p2 r,byte[] a,ge_p3 A,byte[] b)
+public static void ge_double_scalarmult_vartime(ge_p2 r, byte[] a, GroupElemExtended A, byte[] b)
 {
   byte[] aslide = new byte[256];
   byte[] bslide = new byte[256];
@@ -99,8 +99,8 @@ public static void ge_double_scalarmult_vartime(ge_p2 r,byte[] a,ge_p3 A,byte[] 
   for (int count=0; count < 8; count++)
     Ai[count] = new ge_cached();
   ge_p1p1 t = new ge_p1p1();
-  ge_p3 u = new ge_p3();
-  ge_p3 A2 = new ge_p3();
+  GroupElemExtended u = new GroupElemExtended();
+  GroupElemExtended A2 = new GroupElemExtended();
   int i;
 
   slide(aslide,a);
