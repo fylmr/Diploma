@@ -55,7 +55,7 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
  * Условия:
  * a[31] <= 127
  */
-fun groupElementScalarMultBase(h: GroupElemExtended?, a: IntArray) {
+fun groupElementScalarMultBase(h: GroupElemExtended, a: IntArray) {
     val e = IntArray(64)
     var carry: Int
     val r = ge_p1p1()
@@ -87,22 +87,22 @@ fun groupElementScalarMultBase(h: GroupElemExtended?, a: IntArray) {
     i = 1
     while (i < 64) {
         select(t, i / 2, e[i])
-        ge_madd.ge_madd(r, h, t)
+        groupElementAddition(r, h, t)
         ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
         i += 2
     }
-    ge_p3_dbl.ge_p3_dbl(r, h)
+    ge_p3_dbl(r, h)
     ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
-    ge_p2_dbl.ge_p2_dbl(r, s)
+    ge_p2_dbl(r, s)
     ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
-    ge_p2_dbl.ge_p2_dbl(r, s)
+    ge_p2_dbl(r, s)
     ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
-    ge_p2_dbl.ge_p2_dbl(r, s)
+    ge_p2_dbl(r, s)
     ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
     i = 0
     while (i < 64) {
         select(t, i / 2, e[i])
-        ge_madd.ge_madd(r, h, t)
+        groupElementAddition(r, h, t)
         ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
         i += 2
     }
