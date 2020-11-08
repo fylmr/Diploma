@@ -5,33 +5,6 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * ge_p2_dbl
  */
 fun ge_p2_dbl(r: GECompleted, p: GEProjective) {
-    //CONVERT #include "ge_p2_dbl.h"
-
-    /* qhasm: enter ge_p2_dbl */
-
-    /* qhasm: fe X1 */
-
-    /* qhasm: fe Y1 */
-
-    /* qhasm: fe Z1 */
-
-    /* qhasm: fe A */
-
-    /* qhasm: fe AA */
-
-    /* qhasm: fe XX */
-
-    /* qhasm: fe YY */
-
-    /* qhasm: fe B */
-
-    /* qhasm: fe X3 */
-
-    /* qhasm: fe Y3 */
-
-    /* qhasm: fe Z3 */
-
-    /* qhasm: fe T3 */
 
     /* qhasm: XX=X1^2 */
     /* asm 1: fe_sq.fe_sq(>XX=fe#1,<X1=fe#11); */
@@ -46,7 +19,7 @@ fun ge_p2_dbl(r: GECompleted, p: GEProjective) {
     /* qhasm: B=2*Z1^2 */
     /* asm 1: fe_sq2.fe_sq2(>B=fe#4,<Z1=fe#13); */
     /* asm 2: fe_sq2.fe_sq2(>B=r.T,<Z1=p.Z); */
-    feDoubleSquare(r.T.bytes, p.Z.bytes)
+    r.T = p.Z.getDoubledSquare()
 
     /* qhasm: A=X1+Y1 */
     /* asm 1: fe_add.fe_add(>A=fe#2,<X1=fe#11,<Y1=fe#12); */
