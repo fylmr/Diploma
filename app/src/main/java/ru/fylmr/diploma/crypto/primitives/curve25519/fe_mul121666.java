@@ -1,22 +1,12 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519;
 
+/**
+ * fe_mul121666
+ * <p>
+ * h = f * 121666
+ */
 public class fe_mul121666 {
-
-//CONVERT #include "fe.h"
-//CONVERT #include "long.h"
-
-/*
-h = f * 121666
-Can overlap h with f.
-
-Preconditions:
-   |f| bounded by 1.1*2^26,1.1*2^25,1.1*2^26,1.1*2^25,etc.
-
-Postconditions:
-   |h| bounded by 1.1*2^25,1.1*2^24,1.1*2^25,1.1*2^24,etc.
-*/
-
-    public static void fe_mul121666(int[] h, int[] f) {
+    public fe_mul121666(int[] h, int[] f) {
         int f0 = f[0];
         int f1 = f[1];
         int f2 = f[2];
@@ -91,6 +81,4 @@ Postconditions:
         h[8] = (int) h8;
         h[9] = (int) h9;
     }
-
-
 }

@@ -1,6 +1,6 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
+fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
     val e = ByteArray(32)
     val x1 = IntArray(10)
     val x2 = IntArray(10)
@@ -23,7 +23,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
     //  e[31] &= 127;
     //  e[31] |= 64;
 
-    fe_frombytes(x1, p)
+    feFromBytes(x1, p)
     feOne(x2)
     feZero(z2)
     feCopy(x3, x1)
@@ -81,7 +81,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
         feSquare(z2, z2)
 
         /* t3 = a24*E */
-        fe_mul121666.fe_mul121666(z3, tmp1)
+        fe_mul121666(z3, tmp1)
 
         /* X5 = t0^2 */
         feSquare(x3, x3)
