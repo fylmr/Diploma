@@ -878,6 +878,7 @@ data class FieldElement(
     }
 
     companion object {
+        /** fe_1 */
         val one = FieldElement().apply {
             bytes[0] = 1
         }

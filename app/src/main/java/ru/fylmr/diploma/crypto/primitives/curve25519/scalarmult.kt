@@ -23,7 +23,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
 
     feFromBytes(x1.bytes, p)
     x2 = FieldElement.one
-    feZero(z2.bytes)
+//    feZero(z2.bytes)
     feCopy(x3.bytes, x1.bytes)
     z3 = FieldElement.one
     swap = 0
