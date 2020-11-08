@@ -56,10 +56,10 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         z2 *= tmp1
 
         /* BB = B^2 */
-        feSquare(tmp0.bytes, tmp1.bytes)
+        tmp0 = tmp1.getSquare()
 
         /* AA = A^2 */
-        feSquare(tmp1.bytes, x2.bytes)
+        tmp1 = x2.getSquare()
 
         /* t0 = DA+CB */
         x3 = z3 + z2
@@ -76,13 +76,13 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         tmp1 -= tmp0
 
         /* t2 = t1^2 */
-        feSquare(z2.bytes, z2.bytes)
+        z2 = z2.getSquare()
 
         /* t3 = a24*E */
         fe_mul121666(z3.bytes, tmp1.bytes)
 
         /* X5 = t0^2 */
-        feSquare(x3.bytes, x3.bytes)
+        x3 = x3.getSquare()
 
         /* t4 = BB+t3 */
         tmp0 += z3
