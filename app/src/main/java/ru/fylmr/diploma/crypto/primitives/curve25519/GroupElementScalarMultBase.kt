@@ -42,7 +42,7 @@ private fun select(t: GEPrecomputed, pos: Int, b: Int) {
 
     feCopy(minust.yplusx.bytes, t.yminusx.bytes)
     feCopy(minust.yminusx.bytes, t.yplusx.bytes)
-    fe_neg(minust.xy2d.bytes, t.xy2d.bytes)
+    minust.xy2d = t.xy2d.getNegated()
 
     conditionalMove(t, minust, bnegative)
 }

@@ -835,4 +835,46 @@ data class FieldElement(
         return t1 * t0
     }
 
+    // ===================================================
+    // Отрицание
+    // ===================================================
+
+    /** fe_neg: вернёт (-1)*элемент */
+    fun getNegated(): FieldElement {
+        val f0 = bytes[0]
+        val f1 = bytes[1]
+        val f2 = bytes[2]
+        val f3 = bytes[3]
+        val f4 = bytes[4]
+        val f5 = bytes[5]
+        val f6 = bytes[6]
+        val f7 = bytes[7]
+        val f8 = bytes[8]
+        val f9 = bytes[9]
+        val h0 = -f0
+        val h1 = -f1
+        val h2 = -f2
+        val h3 = -f3
+        val h4 = -f4
+        val h5 = -f5
+        val h6 = -f6
+        val h7 = -f7
+        val h8 = -f8
+        val h9 = -f9
+
+        val result = FieldElement()
+        result.bytes[0] = h0
+        result.bytes[1] = h1
+        result.bytes[2] = h2
+        result.bytes[3] = h3
+        result.bytes[4] = h4
+        result.bytes[5] = h5
+        result.bytes[6] = h6
+        result.bytes[7] = h7
+        result.bytes[8] = h8
+        result.bytes[9] = h9
+
+        return result
+    }
+
 }
