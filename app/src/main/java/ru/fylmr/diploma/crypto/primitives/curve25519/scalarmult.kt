@@ -26,7 +26,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
     fe_frombytes(x1, p)
     feOne(x2)
     feZero(z2)
-    fe_copy(x3, x1)
+    feCopy(x3, x1)
     feOne(z3)
     swap = 0
 
@@ -58,10 +58,10 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
         feMultiplication(z2, z2, tmp1)
 
         /* BB = B^2 */
-        fe_sq.fe_sq(tmp0, tmp1)
+        feSquare(tmp0, tmp1)
 
         /* AA = A^2 */
-        fe_sq.fe_sq(tmp1, x2)
+        feSquare(tmp1, x2)
 
         /* t0 = DA+CB */
         feAddition(x3, z3, z2)
@@ -78,13 +78,13 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
         feSubtraction(tmp1, tmp1, tmp0)
 
         /* t2 = t1^2 */
-        fe_sq.fe_sq(z2, z2)
+        feSquare(z2, z2)
 
         /* t3 = a24*E */
         fe_mul121666.fe_mul121666(z3, tmp1)
 
         /* X5 = t0^2 */
-        fe_sq.fe_sq(x3, x3)
+        feSquare(x3, x3)
 
         /* t4 = BB+t3 */
         feAddition(tmp0, tmp0, z3)

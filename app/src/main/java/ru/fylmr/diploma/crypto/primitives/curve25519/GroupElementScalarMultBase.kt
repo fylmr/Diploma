@@ -30,7 +30,7 @@ private fun select(t: GEPrecomputed, pos: Int, b: Int) {
     val minust = GEPrecomputed()
     val bnegative = negative(b)
     val babs = b - (-bnegative and b shl 1)
-    gePrecomp0(t)
+    gePrecomputedZero(t)
     conditionalMove(t, base[pos][0], equal(babs, 1))
     conditionalMove(t, base[pos][1], equal(babs, 2))
     conditionalMove(t, base[pos][2], equal(babs, 3))
@@ -40,9 +40,9 @@ private fun select(t: GEPrecomputed, pos: Int, b: Int) {
     conditionalMove(t, base[pos][6], equal(babs, 7))
     conditionalMove(t, base[pos][7], equal(babs, 8))
 
-    fe_copy(minust.yplusx, t.yminusx)
-    fe_copy(minust.yminusx, t.yplusx)
-    fe_neg.fe_neg(minust.xy2d, t.xy2d)
+    feCopy(minust.yplusx, t.yminusx)
+    feCopy(minust.yminusx, t.yplusx)
+    fe_neg(minust.xy2d, t.xy2d)
 
     conditionalMove(t, minust, bnegative)
 }

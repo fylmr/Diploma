@@ -1,6 +1,6 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-fun gePrecomp0(h: GEPrecomputed) {
+fun gePrecomputedZero(h: GEPrecomputed) {
     //CONVERT #include "ge.h"
     feOne(h.yplusx)
     feOne(h.yminusx)
