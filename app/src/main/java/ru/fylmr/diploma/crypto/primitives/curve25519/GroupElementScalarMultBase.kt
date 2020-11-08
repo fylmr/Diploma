@@ -14,20 +14,20 @@ private fun negative(b: Int): Int {
     return x.toInt()
 }
 
-private fun conditionalMove(t: ge_precomp, u: ge_precomp, b: Int) {
+private fun conditionalMove(t: GEPrecomputed, u: GEPrecomputed, b: Int) {
     condMove(t.yplusx, u.yplusx, b)
     condMove(t.yminusx, u.yminusx, b)
     condMove(t.xy2d, u.xy2d, b)
 }
 
-private fun select(t: ge_precomp, pos: Int, b: Int) {
+private fun select(t: GEPrecomputed, pos: Int, b: Int) {
     val base = when {
         pos <= 7 -> ge_precomp_base_0_7.base
         pos <= 15 -> ge_precomp_base_8_15.base
         pos <= 23 -> ge_precomp_base_16_23.base
         else -> ge_precomp_base_24_31.base
     }
-    val minust = ge_precomp()
+    val minust = GEPrecomputed()
     val bnegative = negative(b)
     val babs = b - (-bnegative and b shl 1)
     gePrecomp0(t)
@@ -60,9 +60,9 @@ private fun select(t: ge_precomp, pos: Int, b: Int) {
 fun geScalarMultBase(h: GEExtended, a: IntArray) {
     val e = IntArray(64)
     var carry: Int
-    val r = ge_p1p1()
-    val s = ge_p2()
-    val t = ge_precomp()
+    val r = GECompleted()
+    val s = GEProjective()
+    val t = GEPrecomputed()
     var i = 0
 
     while (i < 32) {
@@ -91,7 +91,7 @@ fun geScalarMultBase(h: GEExtended, a: IntArray) {
     while (i < 64) {
         select(t, i / 2, e[i])
         groupElementAddition(r, h, t)
-        ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
+        geCompletedToExtended(h, r)
         i += 2
     }
     ge_p3_dbl(r, h)
@@ -101,12 +101,12 @@ fun geScalarMultBase(h: GEExtended, a: IntArray) {
     ge_p2_dbl(r, s)
     geCompletedToProjective(s, r)
     ge_p2_dbl(r, s)
-    ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
+    geCompletedToExtended(h, r)
     i = 0
     while (i < 64) {
         select(t, i / 2, e[i])
         groupElementAddition(r, h, t)
-        ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
+        geCompletedToExtended(h, r)
         i += 2
     }
 }

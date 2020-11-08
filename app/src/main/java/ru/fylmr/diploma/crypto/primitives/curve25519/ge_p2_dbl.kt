@@ -4,7 +4,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * r = 2*p
  * ge_p2_dbl
  */
-fun ge_p2_dbl(r: ge_p1p1, p: ge_p2) {
+fun ge_p2_dbl(r: GECompleted, p: GEProjective) {
     val t0 = IntArray(10)
     //CONVERT #include "ge_p2_dbl.h"
 

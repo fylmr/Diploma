@@ -4,7 +4,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * ge_madd
  * r = p + q
  */
-fun groupElementAddition(r: ge_p1p1, p: GEExtended, q: ge_precomp) {
+fun groupElementAddition(r: GECompleted, p: GEExtended, q: GEPrecomputed) {
     val t0 = IntArray(10)
     //CONVERT #include "ge_madd.h"
 
