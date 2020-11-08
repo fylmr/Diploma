@@ -7,6 +7,6 @@ fun geExtendedZero(h: GEExtended) {
     //CONVERT #include "ge.h"
     feZero(h.X.bytes)
     h.Y = FieldElement.one
-    h.Y = FieldElement.one
+    h.Z = FieldElement.one
     feZero(h.T.bytes)
 }
