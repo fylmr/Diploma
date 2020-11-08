@@ -4,7 +4,13 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import ru.fylmr.diploma.crypto.Curve25519.calculateAgreement
 import ru.fylmr.diploma.crypto.Curve25519.keyGen
+import ru.fylmr.diploma.crypto.primitives.digest.SHA512
 import java.security.SecureRandom
+import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.Mac
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 
 class Curve25519Test {
 
@@ -23,6 +29,108 @@ class Curve25519Test {
 
         assertArrayEquals(aliceShared, bobShared)
     }
+
+    // ===================================================
+    //
+    // ===================================================
+
+    @Test
+    fun ecies() {
+        val alice = getAlicePair()
+        val bob = getBobPair(alice.publicKey)
+
+        val shared = calculateAgreement(alice.privateKey, bob.publicKey)
+
+        val ar = byteArrayOf(0, 1, 2, 3)
+        val c = encrypt(shared, ar)
+        val d = decrypt(shared, c)
+
+        assertArrayEquals(d, ar)
+    }
+
+    private fun encrypt(agreement: ByteArray, msg: ByteArray): EncryptionResult {
+        val hash = sha512(agreement)
+        val encryptionKey = hash.slice(IntRange(0, 31)).toByteArray()
+        val macKey = hash.slice(IntRange(32, hash.size - 1)).toByteArray()
+        val ciphertext = aes(encryptionKey, msg)
+        val mac = hmac512(ciphertext, macKey)
+        return EncryptionResult(
+            ciphertext = ciphertext,
+            mac = mac
+        )
+    }
+
+    private fun decrypt(agreement: ByteArray, cipher: EncryptionResult): ByteArray? {
+        val hash = sha512(agreement)
+        val encryptionKey = hash.slice(IntRange(0, 31)).toByteArray()
+        val macKey = hash.slice(IntRange(32, hash.size - 1)).toByteArray()
+        val msg = aesDecrypt(encryptionKey, cipher.ciphertext)
+        val mac = hmac512(cipher.ciphertext, macKey)
+
+        if (!mac.contentEquals(cipher.mac)) {
+            throw IllegalStateException("Неравные имитовставки")
+        }
+
+        return msg
+    }
+
+    private fun sha512(agreement: ByteArray): ByteArray {
+        val sha = SHA512()
+        sha.update(agreement, 0, agreement.size)
+        val result = ByteArray(64)
+        sha.doFinal(result, 0)
+        return result
+    }
+
+    private fun aes(encryptionKey: ByteArray, msg: ByteArray): ByteArray? {
+        val encoder = Base64.getEncoder()
+        val encodedKey: ByteArray = encoder.encode(encryptionKey)
+        val originalKey: SecretKey = SecretKeySpec(encodedKey, 0, 32, "AES")
+
+        val cipher: Cipher = Cipher.getInstance("AES")
+        cipher.init(Cipher.ENCRYPT_MODE, originalKey)
+        return cipher.doFinal(msg)
+    }
+
+    private fun aesDecrypt(encryptionKey: ByteArray, msg: ByteArray?): ByteArray? {
+        val encoder = Base64.getEncoder()
+        val encodedKey: ByteArray = encoder.encode(encryptionKey)
+        val originalKey: SecretKey = SecretKeySpec(encodedKey, 0, 32, "AES")
+
+        val cipher: Cipher = Cipher.getInstance("AES")
+        cipher.init(Cipher.DECRYPT_MODE, originalKey)
+        return cipher.doFinal(msg)
+    }
+
+    private fun hmac512(message: ByteArray?, key: ByteArray?): ByteArray? {
+        return try {
+            val hashingAlgorithm = "HmacSHA512"
+            hmac(hashingAlgorithm, key, message)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun hmac(algorithm: String?, key: ByteArray?, message: ByteArray?): ByteArray {
+        val mac: Mac = Mac.getInstance(algorithm)
+        mac.init(SecretKeySpec(key, algorithm))
+        return mac.doFinal(message)
+    }
+
+    data class EncryptionResult(
+        val ciphertext: ByteArray?,
+        val mac: ByteArray?,
+    )
+
+    data class KDF(
+        val encryptionKey: String,
+        val macKey: String,
+    )
+
+    // ===================================================
+    //
+    // ===================================================
 
     /** Функция, описывающая обмен ключами */
     private fun keyExchange() {
@@ -62,8 +170,11 @@ class Curve25519Test {
     }
 
     /** Создание общего ключа Алисы */
-    fun generateAliceAgreement(aliceKeyPair: Curve25519KeyPair, bobPublicKey: ByteArray) {
+    fun generateAliceAgreement(
+        aliceKeyPair: Curve25519KeyPair,
+        bobPublicKey: ByteArray,
+    ): ByteArray {
         // Общий ключ: его будем использовать для шифрования
-        val agreement = calculateAgreement(aliceKeyPair.privateKey, bobPublicKey)
+        return calculateAgreement(aliceKeyPair.privateKey, bobPublicKey)
     }
 }

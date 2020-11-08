@@ -1,19 +1,17 @@
 package ru.fylmr.diploma.crypto.primitives.curve25519
 
-fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
+fun scalarMultiplication(q: ByteArray, scalar: ByteArray, point: ByteArray) {
     val e = ByteArray(32)
     val x1 = FieldElement()
-    var x2 = FieldElement()
     var z2 = FieldElement()
     var x3 = FieldElement()
-    var z3 = FieldElement()
 
     var swap: Int
     var b: Int
     var i = 0
 
     while (i < 32) {
-        e[i] = n[i]
+        e[i] = scalar[i]
         ++i
     }
 
@@ -21,11 +19,11 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
     //  e[31] &= 127;
     //  e[31] |= 64;
 
-    feFromBytes(x1.bytes, p)
-    x2 = FieldElement.one
+    feFromBytes(x1.bytes, point)
+    var x2 = FieldElement.one
 //    feZero(z2.bytes)
     feCopy(x3.bytes, x1.bytes)
-    z3 = FieldElement.one
+    var z3 = FieldElement.one
     swap = 0
 
     var pos = 254
@@ -100,7 +98,6 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
     fe_cswap(z2.bytes, z3.bytes, swap)
     z2 = z2.getInverted()
     x2 *= z2
-    feToBytes(q, x2.bytes)
 
-    return 0
+    feToBytes(q, x2.bytes)
 }
