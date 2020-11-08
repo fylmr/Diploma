@@ -51,7 +51,7 @@ fun groupElementAddition(r: GECompleted, p: GEExtended, q: GEPrecomputed) {
     /* qhasm: YmX1 = Y1-X1 */
     /* asm 1: fe_sub.fe_sub(>YmX1=fe#2,<Y1=fe#12,<X1=fe#11); */
     /* asm 2: fe_sub.fe_sub(>YmX1=r.Y,<Y1=p.Y,<X1=p.X); */
-    feSubtraction(r.Y.bytes, p.Y.bytes, p.X.bytes)
+    r.Y = p.Y - p.X
 
     /* qhasm: A = YpX1*ypx2 */
     /* asm 1: fe_mul(>A=fe#3,<YpX1=fe#1,<ypx2=fe#15); */
@@ -76,7 +76,7 @@ fun groupElementAddition(r: GECompleted, p: GEExtended, q: GEPrecomputed) {
     /* qhasm: X3 = A-B */
     /* asm 1: fe_sub.fe_sub(>X3=fe#1,<A=fe#3,<B=fe#2); */
     /* asm 2: fe_sub.fe_sub(>X3=r.X,<A=r.Z,<B=r.Y); */
-    feSubtraction(r.X.bytes, r.Z.bytes, r.Y.bytes)
+    r.X = r.Z - r.Y
 
     /* qhasm: Y3 = A+B */
     /* asm 1: fe_add.fe_add(>Y3=fe#2,<A=fe#3,<B=fe#2); */
@@ -91,7 +91,7 @@ fun groupElementAddition(r: GECompleted, p: GEExtended, q: GEPrecomputed) {
     /* qhasm: T3 = D-C */
     /* asm 1: fe_sub.fe_sub(>T3=fe#4,<D=fe#5,<C=fe#4); */
     /* asm 2: fe_sub.fe_sub(>T3=r.T,<D=t0,<C=r.T); */
-    feSubtraction(r.T.bytes, t0.bytes, r.T.bytes)
+    r.T = t0 - r.T
 
     /* qhasm: return */
 }

@@ -7,7 +7,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  */
 @Suppress("PropertyName")
 class GEProjective {
-    var X = IntArray(10)
-    var Y = IntArray(10)
-    var Z = IntArray(10)
+    var X = FieldElement()
+    var Y = FieldElement()
+    var Z = FieldElement()
 }

@@ -7,8 +7,6 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
     var z2 = FieldElement()
     var x3 = FieldElement()
     val z3 = FieldElement()
-    var tmp0 = FieldElement()
-    val tmp1 = FieldElement()
 
     var swap: Int
     var b: Int
@@ -40,10 +38,10 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         swap = b
 
         /* D = X3-Z3 */
-        feSubtraction(tmp0.bytes, x3.bytes, z3.bytes)
+        var tmp0 = x3 - z3
 
         /* B = X2-Z2 */
-        feSubtraction(tmp1.bytes, x2.bytes, z2.bytes)
+        var tmp1 = x2 - z2
 
         /* A = X2+Z2 */
         x2 += z2
@@ -69,13 +67,13 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         /* assign x3 to t0 */
 
         /* t1 = DA-CB */
-        feSubtraction(z2.bytes, z3.bytes, z2.bytes)
+        z2 = z3 - z2
 
         /* X4 = AA*BB */
         feMultiplication(x2.bytes, tmp1.bytes, tmp0.bytes)
 
         /* E = AA-BB */
-        feSubtraction(tmp1.bytes, tmp1.bytes, tmp0.bytes)
+        tmp1 -= tmp0
 
         /* t2 = t1^2 */
         feSquare(z2.bytes, z2.bytes)
