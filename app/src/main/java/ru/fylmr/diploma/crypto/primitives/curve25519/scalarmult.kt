@@ -98,7 +98,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
 
     fe_cswap(x2.bytes, x3.bytes, swap)
     fe_cswap(z2.bytes, z3.bytes, swap)
-    z2 = feInversion(z2)
+    z2 = z2.getInverted()
     x2 *= z2
     feToBytes(q, x2.bytes)
 

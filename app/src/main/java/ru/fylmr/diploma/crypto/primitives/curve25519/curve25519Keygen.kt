@@ -20,7 +20,7 @@ fun curve25519Keygen(pubKeyOut: ByteArray, privateKeyIn: ByteArray) {
     geScalarMultBase(ed, privateKeyIn.map { it.toInt() }.toIntArray())
     val edYPlusOne = ed.Y + ed.Z
     val oneMinusEdY = ed.Z - ed.Y
-    val invOneMinusEdY = feInversion(oneMinusEdY)
+    val invOneMinusEdY = oneMinusEdY.getInverted()
     val montX = edYPlusOne * invOneMinusEdY
     feToBytes(pubKeyOut, montX.bytes)
 }
