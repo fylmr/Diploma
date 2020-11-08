@@ -352,6 +352,85 @@ data class FieldElement(
         return h
     }
 
+    /**
+     * fe_mul121666: вернуть f * 121666
+     */
+    fun multiplyBy121666(): FieldElement {
+        val f0 = bytes[0]
+        val f1 = bytes[1]
+        val f2 = bytes[2]
+        val f3 = bytes[3]
+        val f4 = bytes[4]
+        val f5 = bytes[5]
+        val f6 = bytes[6]
+        val f7 = bytes[7]
+        val f8 = bytes[8]
+        val f9 = bytes[9]
+        var h0 = f0 * 121666.toLong()
+        var h1 = f1 * 121666.toLong()
+        var h2 = f2 * 121666.toLong()
+        var h3 = f3 * 121666.toLong()
+        var h4 = f4 * 121666.toLong()
+        var h5 = f5 * 121666.toLong()
+        var h6 = f6 * 121666.toLong()
+        var h7 = f7 * 121666.toLong()
+        var h8 = f8 * 121666.toLong()
+        var h9 = f9 * 121666.toLong()
+        val carry0: Long
+        val carry1: Long
+        val carry2: Long
+        val carry3: Long
+        val carry4: Long
+        val carry5: Long
+        val carry6: Long
+        val carry7: Long
+        val carry8: Long
+        val carry9: Long
+        carry9 = h9 + (1 shl 24).toLong() shr 25
+        h0 += carry9 * 19
+        h9 -= carry9 shl 25
+        carry1 = h1 + (1 shl 24).toLong() shr 25
+        h2 += carry1
+        h1 -= carry1 shl 25
+        carry3 = h3 + (1 shl 24).toLong() shr 25
+        h4 += carry3
+        h3 -= carry3 shl 25
+        carry5 = h5 + (1 shl 24).toLong() shr 25
+        h6 += carry5
+        h5 -= carry5 shl 25
+        carry7 = h7 + (1 shl 24).toLong() shr 25
+        h8 += carry7
+        h7 -= carry7 shl 25
+        carry0 = h0 + (1 shl 25).toLong() shr 26
+        h1 += carry0
+        h0 -= carry0 shl 26
+        carry2 = h2 + (1 shl 25).toLong() shr 26
+        h3 += carry2
+        h2 -= carry2 shl 26
+        carry4 = h4 + (1 shl 25).toLong() shr 26
+        h5 += carry4
+        h4 -= carry4 shl 26
+        carry6 = h6 + (1 shl 25).toLong() shr 26
+        h7 += carry6
+        h6 -= carry6 shl 26
+        carry8 = h8 + (1 shl 25).toLong() shr 26
+        h9 += carry8
+        h8 -= carry8 shl 26
+
+        val result = FieldElement()
+        result.bytes[0] = h0.toInt()
+        result.bytes[1] = h1.toInt()
+        result.bytes[2] = h2.toInt()
+        result.bytes[3] = h3.toInt()
+        result.bytes[4] = h4.toInt()
+        result.bytes[5] = h5.toInt()
+        result.bytes[6] = h6.toInt()
+        result.bytes[7] = h7.toInt()
+        result.bytes[8] = h8.toInt()
+        result.bytes[9] = h9.toInt()
+        return result
+    }
+
     // ===================================================
     // Квадрат
     // ===================================================

@@ -79,7 +79,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         z2 = z2.getSquare()
 
         /* t3 = a24*E */
-        fe_mul121666(z3.bytes, tmp1.bytes)
+        z3 = tmp1.multiplyBy121666()
 
         /* X5 = t0^2 */
         x3 = x3.getSquare()
