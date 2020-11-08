@@ -15,9 +15,9 @@ private fun negative(b: Int): Int {
 }
 
 private fun conditionalMove(t: GEPrecomputed, u: GEPrecomputed, b: Int) {
-    condMove(t.yplusx, u.yplusx, b)
-    condMove(t.yminusx, u.yminusx, b)
-    condMove(t.xy2d, u.xy2d, b)
+    condMove(t.yplusx.bytes, u.yplusx.bytes, b)
+    condMove(t.yminusx.bytes, u.yminusx.bytes, b)
+    condMove(t.xy2d.bytes, u.xy2d.bytes, b)
 }
 
 private fun select(t: GEPrecomputed, pos: Int, b: Int) {
@@ -40,9 +40,9 @@ private fun select(t: GEPrecomputed, pos: Int, b: Int) {
     conditionalMove(t, base[pos][6], equal(babs, 7))
     conditionalMove(t, base[pos][7], equal(babs, 8))
 
-    feCopy(minust.yplusx, t.yminusx)
-    feCopy(minust.yminusx, t.yplusx)
-    fe_neg(minust.xy2d, t.xy2d)
+    feCopy(minust.yplusx.bytes, t.yminusx.bytes)
+    feCopy(minust.yminusx.bytes, t.yplusx.bytes)
+    fe_neg(minust.xy2d.bytes, t.xy2d.bytes)
 
     conditionalMove(t, minust, bnegative)
 }

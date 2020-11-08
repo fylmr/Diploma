@@ -6,7 +6,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
     var x2 = FieldElement()
     var z2 = FieldElement()
     var x3 = FieldElement()
-    val z3 = FieldElement()
+    var z3 = FieldElement()
 
     var swap: Int
     var b: Int
@@ -50,10 +50,10 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         z2 = x3 + z3
 
         /* DA = D*A */
-        feMultiplication(z3.bytes, tmp0.bytes, x2.bytes)
+        z3 = tmp0 * x2
 
         /* CB = C*B */
-        feMultiplication(z2.bytes, z2.bytes, tmp1.bytes)
+        z2 *= tmp1
 
         /* BB = B^2 */
         feSquare(tmp0.bytes, tmp1.bytes)
@@ -70,7 +70,7 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         z2 = z3 - z2
 
         /* X4 = AA*BB */
-        feMultiplication(x2.bytes, tmp1.bytes, tmp0.bytes)
+        x2 = tmp1 * tmp0
 
         /* E = AA-BB */
         tmp1 -= tmp0
@@ -88,18 +88,18 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray): Int {
         tmp0 += z3
 
         /* Z5 = X1*t2 */
-        feMultiplication(z3.bytes, x1.bytes, z2.bytes)
+        z3 = x1 * z2
 
         /* Z4 = E*t4 */
-        feMultiplication(z2.bytes, tmp1.bytes, tmp0.bytes)
+        z2 = tmp1 * tmp0
 
         --pos
     }
 
     fe_cswap(x2.bytes, x3.bytes, swap)
     fe_cswap(z2.bytes, z3.bytes, swap)
-    feInversion(z2.bytes, z2.bytes)
-    feMultiplication(x2.bytes, x2.bytes, z2.bytes)
+    z2 = feInversion(z2)
+    x2 *= z2
     feToBytes(q, x2.bytes)
 
     return 0

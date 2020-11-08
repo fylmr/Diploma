@@ -56,17 +56,17 @@ fun groupElementAddition(r: GECompleted, p: GEExtended, q: GEPrecomputed) {
     /* qhasm: A = YpX1*ypx2 */
     /* asm 1: fe_mul(>A=fe#3,<YpX1=fe#1,<ypx2=fe#15); */
     /* asm 2: fe_mul(>A=r.Z,<YpX1=r.X,<ypx2=q.yplusx); */
-    feMultiplication(r.Z.bytes, r.X.bytes, q.yplusx)
+    r.Z = r.X * q.yplusx
 
     /* qhasm: B = YmX1*ymx2 */
     /* asm 1: fe_mul(>B=fe#2,<YmX1=fe#2,<ymx2=fe#16); */
     /* asm 2: fe_mul(>B=r.Y,<YmX1=r.Y,<ymx2=q.yminusx); */
-    feMultiplication(r.Y.bytes, r.Y.bytes, q.yminusx)
+    r.Y = r.Y * q.yminusx
 
     /* qhasm: C = xy2d2*T1 */
     /* asm 1: fe_mul(>C=fe#4,<xy2d2=fe#17,<T1=fe#14); */
     /* asm 2: fe_mul(>C=r.T,<xy2d2=q.xy2d,<T1=p.T); */
-    feMultiplication(r.T.bytes, q.xy2d, p.T.bytes)
+    r.T = q.xy2d * p.T
 
     /* qhasm: D = 2*Z1 */
     /* asm 1: fe_add.fe_add(>D=fe#5,<Z1=fe#13,<Z1=fe#13); */
