@@ -6,7 +6,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
 fun geExtendedZero(h: GEExtended) {
     //CONVERT #include "ge.h"
     feZero(h.X.bytes)
-    feOne(h.Y.bytes)
-    feOne(h.Z.bytes)
+    h.Y = FieldElement.one
+    h.Y = FieldElement.one
     feZero(h.T.bytes)
 }
