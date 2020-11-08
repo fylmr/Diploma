@@ -5,8 +5,8 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  */
 fun geExtendedZero(h: GEExtended) {
     //CONVERT #include "ge.h"
-    feZero(h.X)
-    feOne(h.Y)
-    feOne(h.Z)
-    feZero(h.T)
+    feZero(h.X.bytes)
+    feOne(h.Y.bytes)
+    feOne(h.Z.bytes)
+    feZero(h.T.bytes)
 }

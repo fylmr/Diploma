@@ -2,7 +2,6 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
 
 fun curve25519Keygen(pubKeyOut: ByteArray, privateKeyIn: ByteArray) {
     val ed = GEExtended() // Ed25519 pubkey point
-    val edYPlusOne = IntArray(10)
     val oneMinusEdY = IntArray(10)
     val invOneMinusEdY = IntArray(10)
     val montX = IntArray(10)
@@ -21,9 +20,11 @@ fun curve25519Keygen(pubKeyOut: ByteArray, privateKeyIn: ByteArray) {
      Замечание: ed_y=1 конвертируется в mont_x=0, т.к. fe_invert это mod-exp
   */
     geScalarMultBase(ed, privateKeyIn.map { it.toInt() }.toIntArray())
-    feAddition(edYPlusOne, ed.Y, ed.Z)
-    feSubtraction(oneMinusEdY, ed.Z, ed.Y)
+
+    val edYPlusOne = ed.Y + ed.Z
+
+    feSubtraction(oneMinusEdY, ed.Z.bytes, ed.Y.bytes)
     feInversion(invOneMinusEdY, oneMinusEdY)
-    feMultiplication(montX, edYPlusOne, invOneMinusEdY)
+    feMultiplication(montX, edYPlusOne.bytes, invOneMinusEdY)
     feToBytes(pubKeyOut, montX)
 }

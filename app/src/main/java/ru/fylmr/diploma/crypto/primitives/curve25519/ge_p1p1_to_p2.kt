@@ -6,7 +6,7 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * r := p
  */
 fun geCompletedToProjective(r: GEProjective, p: GECompleted) {
-    feMultiplication(r.X, p.X, p.T)
-    feMultiplication(r.Y, p.Y, p.Z)
-    feMultiplication(r.Z, p.Z, p.T)
+    feMultiplication(r.X, p.X.bytes, p.T.bytes)
+    feMultiplication(r.Y, p.Y.bytes, p.Z.bytes)
+    feMultiplication(r.Z, p.Z.bytes, p.T.bytes)
 }

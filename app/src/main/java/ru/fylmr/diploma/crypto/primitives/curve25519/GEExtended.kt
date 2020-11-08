@@ -11,15 +11,15 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
 @Suppress("PropertyName")
 class GEExtended {
     @JvmField
-    var X = IntArray(10)
+    var X = FieldElement()
 
     @JvmField
-    var Y = IntArray(10)
+    var Y = FieldElement()
 
     @JvmField
-    var Z = IntArray(10)
+    var Z = FieldElement()
 
     @JvmField
-    var T = IntArray(10)
+    var T = FieldElement()
 
 }

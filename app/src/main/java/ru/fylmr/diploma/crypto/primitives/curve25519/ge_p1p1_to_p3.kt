@@ -6,8 +6,8 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  * Completed в Extended
  */
 fun geCompletedToExtended(r: GEExtended, p: GECompleted) {
-    feMultiplication(r.X, p.X, p.T)
-    feMultiplication(r.Y, p.Y, p.Z)
-    feMultiplication(r.Z, p.Z, p.T)
-    feMultiplication(r.T, p.X, p.Y)
+    feMultiplication(r.X.bytes, p.X.bytes, p.T.bytes)
+    feMultiplication(r.Y.bytes, p.Y.bytes, p.Z.bytes)
+    feMultiplication(r.Z.bytes, p.Z.bytes, p.T.bytes)
+    feMultiplication(r.T.bytes, p.X.bytes, p.Y.bytes)
 }

@@ -7,8 +7,8 @@ package ru.fylmr.diploma.crypto.primitives.curve25519
  */
 @Suppress("PropertyName")
 class GECompleted {
-    var X = IntArray(10)
-    var Y = IntArray(10)
-    var Z = IntArray(10)
-    var T = IntArray(10)
+    var X = FieldElement()
+    var Y = FieldElement()
+    var Z = FieldElement()
+    var T = FieldElement()
 }
