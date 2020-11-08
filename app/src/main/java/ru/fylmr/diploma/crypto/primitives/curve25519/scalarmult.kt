@@ -24,10 +24,10 @@ fun scalarMultiplication(q: ByteArray, n: ByteArray, p: ByteArray?): Int {
     //  e[31] |= 64;
 
     fe_frombytes(x1, p)
-    fe_1(x2)
-    fe_0(z2)
+    feOne(x2)
+    feZero(z2)
     fe_copy(x3, x1)
-    fe_1(z3)
+    feOne(z3)
     swap = 0
 
     var pos = 254

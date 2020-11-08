@@ -95,11 +95,11 @@ fun geScalarMultBase(h: GEExtended, a: IntArray) {
         i += 2
     }
     ge_p3_dbl(r, h)
-    ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
+    geCompletedToProjective(s, r)
     ge_p2_dbl(r, s)
-    ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
+    geCompletedToProjective(s, r)
     ge_p2_dbl(r, s)
-    ge_p1p1_to_p2.ge_p1p1_to_p2(s, r)
+    geCompletedToProjective(s, r)
     ge_p2_dbl(r, s)
     ge_p1p1_to_p3.ge_p1p1_to_p3(h, r)
     i = 0
