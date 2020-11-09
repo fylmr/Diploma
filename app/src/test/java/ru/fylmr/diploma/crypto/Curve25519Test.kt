@@ -10,6 +10,7 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.Mac
 import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 class Curve25519Test {
@@ -41,7 +42,7 @@ class Curve25519Test {
 
         val shared = calculateAgreement(alice.privateKey, bob.publicKey)
 
-        val ar = byteArrayOf(0, 1, 2, 3)
+        val ar = byteArrayOf(1, 4, 8, 8)
         val c = encrypt(shared, ar)
         val d = decrypt(shared, c)
 
@@ -87,8 +88,9 @@ class Curve25519Test {
         val encodedKey: ByteArray = encoder.encode(encryptionKey)
         val originalKey: SecretKey = SecretKeySpec(encodedKey, 0, 32, "AES")
 
-        val cipher: Cipher = Cipher.getInstance("AES")
-        cipher.init(Cipher.ENCRYPT_MODE, originalKey)
+        val ivSpec = IvParameterSpec(sha512(encodedKey), 0, 16)
+        val cipher: Cipher = Cipher.getInstance("AES/CTR/NoPadding")
+        cipher.init(Cipher.ENCRYPT_MODE, originalKey, ivSpec)
         return cipher.doFinal(msg)
     }
 
@@ -97,8 +99,9 @@ class Curve25519Test {
         val encodedKey: ByteArray = encoder.encode(encryptionKey)
         val originalKey: SecretKey = SecretKeySpec(encodedKey, 0, 32, "AES")
 
-        val cipher: Cipher = Cipher.getInstance("AES")
-        cipher.init(Cipher.DECRYPT_MODE, originalKey)
+        val ivSpec = IvParameterSpec(sha512(encodedKey), 0, 16)
+        val cipher: Cipher = Cipher.getInstance("AES/CTR/NoPadding")
+        cipher.init(Cipher.DECRYPT_MODE, originalKey, ivSpec)
         return cipher.doFinal(msg)
     }
 
