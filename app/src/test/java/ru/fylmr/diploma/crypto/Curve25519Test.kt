@@ -49,6 +49,11 @@ class Curve25519Test {
         assertArrayEquals(d, ar)
     }
 
+    @Test
+    fun shaSpeedTest() {
+        sha512(ByteArray(500) { it.toByte() })
+    }
+
     private fun encrypt(agreement: ByteArray, msg: ByteArray): EncryptionResult {
         val hash = sha512(agreement)
         val encryptionKey = hash.slice(IntRange(0, 31)).toByteArray()
